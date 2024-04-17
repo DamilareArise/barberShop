@@ -1,0 +1,43 @@
+{% extends "common.html" %}
+    {% block title %}Login{% endblock title %}
+    {% block content %}
+        {% load static %}
+
+
+        <section class="container border mt-5 col-lg-4 p-4 bg-light shadow" style="height: auto;">
+            <h3 class="text-center fw-bold">LOGIN</h3>
+            <form method="post">
+                {% csrf_token %}
+                {% load bootstrap %}
+
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+                {% endif %}
+                
+                {{form|bootstrap}}
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{% url "password_reset" %}" class="text-decoration-none">Forgot Password?</a>
+
+
+
+
+                {% comment %} <div class="mb-3">
+                    <label for="id_username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="id_username" aria-describedby="usernameHelp" name="username" placeholder='Username' required>
+                    <div id="usernameHelp" class="form-text">We'll never share your username with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="id_password" name="password" placeholder='Password' required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember_me">
+                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button> {% endcomment %}
+            </form>
+        </section>
+ 
+    {% endblock %}
