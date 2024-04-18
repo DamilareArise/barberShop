@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.views.generic import TemplateView
 from barberShop.userApp.views import SignUpView
+from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
+from . import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,4 +34,9 @@ urlpatterns = [
     path('team/', TemplateView.as_view(template_name='team.html'), name='team'),
     re_path(r'^accounts/', include('django.contrib.auth.urls')),
     re_path(r'^accounts/signup/$', SignUpView.as_view(), name="signup"),
+    re_path(r'^userApp/', include('barberShop.userApp.urls'))
 ]
+
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
