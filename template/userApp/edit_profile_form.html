@@ -1,0 +1,21 @@
+{% extends "common.html" %}
+    {% block title %}Sign up{% endblock title %}
+    {% block content %}
+    {% load static %}
+
+    <section class="container border mt-5 col-lg-4 p-4 bg-light shadow" style="height: auto;">
+        <h3 class="text-center fw-bold">EDIT PROFILE</h3>
+        <form method='post'>
+            {% csrf_token %}
+            {% load bootstrap %}
+            {{user_form |bootstrap}}
+            {% if request.user.is_superuser %}
+                {{admin_profile_form |bootstrap}}
+            {% else %}
+                {{user_profile_form |bootstrap}}
+            {% endif %}
+            
+            <button type="submit" class="btn btn-primary text-center">save</button>
+        </form>
+    </section>
+    {% endblock %}

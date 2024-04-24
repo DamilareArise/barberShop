@@ -43,7 +43,7 @@
                                 </tr>
                                 <tr>
                                 <td class="py-3" style="width: 150px;">Phone:</td>
-                                <td class="py-3">{{profile.phone}}</td>
+                                <td class="py-3">{{profile.phone_number}}</td>
                                 </tr>
                                 <tr>
                                 <td class="py-3" style="width: 150px;">Address:</td>
@@ -62,22 +62,46 @@
                     <div class= "field">
                         <div class ="control d-flex justify-content-center gap-2 py-4">
                             {% if request.user.is_superuser %}
-                            <a href="">
+                            <a href="{% url "edit_admin" profile.user_id %}">
                                 <button type="submit" class="btn btn-primary">
                                     Edit account
                                 </button>
                             </a> 
-                            <a href="">
-                                <button type="submit" class="btn btn-dark mx-2">
-                                    {% if profile.user.is_active == 1 %}
-                                        Deactivate
-                                    {% else %}
-                                        Activate
-                                    {% endif %}   
-                                </button>
-                            </a>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal_{{profile.user_id}}">
+                                {% if profile.user.is_active == 1 %}
+                                Deactivate
+                                {% else %}
+                                Activate
+                                {% endif %}   
+                            </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal_{{profile.user_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">                                {% if profile.user.is_active == 1 %}
+                                        Deactivate Account
+                                        {% else %}
+                                        Activate Account
+                                        {% endif %}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Click on confirm to proceed
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <a href="{% url "deactivate-user" profile.user_id %}"><button type="button" class="btn btn-primary">Confirm</button></a>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            
                             {% else %}
-                            <a href="">
+                            <a href="{% url "edit_user" profile.user_id %}">
                                 <button type="submit" class="btn btn-primary">
                                     Edit account
                                 </button>

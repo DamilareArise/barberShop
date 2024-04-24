@@ -10,14 +10,14 @@
                 {% csrf_token %}
                 {% load bootstrap %}
 
-                {% if form.non_field_errors %}
+                <!-- {% if form.non_field_errors %}
                 {% for error in form.non_field_errors %}
                 <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
-                {% endif %}
+                {% endif %} -->
                 
                 {{form|bootstrap}}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Login</button>
                 <a href="{% url "password_reset" %}" class="text-decoration-none">Forgot Password?</a>
 
 
@@ -36,7 +36,7 @@
                     <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember_me">
                     <label class="form-check-label" for="exampleCheck1">Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button> {% endcomment %}
+                <button type="submit" class="btn btn-primary">Login</button> {% endcomment %}
             </form>
         </section>
  
