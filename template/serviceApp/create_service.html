@@ -1,0 +1,16 @@
+{% extends "common.html" %}
+    {% block title %}Create Service{% endblock title %}
+    {% block content %}
+    {% load static %}
+
+    <section class="container border mt-5 col-lg-4 p-4 bg-light shadow" style="height: auto;">
+        <h3 class="text-center fw-bold">Create Service</h3>
+        <form method='post'>
+            {% csrf_token %}
+            {% load bootstrap %}
+            {{serviceForm |bootstrap}}
+
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </section>
+    {% endblock %}

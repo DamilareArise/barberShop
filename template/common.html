@@ -71,7 +71,7 @@
                     <div class="navbar-nav ml-auto">
                         <a href="{% url "home" %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url "about" %}" class="nav-item nav-link">About</a>
-                        <a href="{% url "service" %}" class="nav-item nav-link">Service</a>
+                        <a href="{% url "all_services" %}" class="nav-item nav-link">Service</a>
                         <a href="{% url "price" %}" class="nav-item nav-link">Price</a>
                         <a href="{% url "team" %}" class="nav-item nav-link">Barber</a>
                         <a href="{% url "contact" %}" class="nav-item nav-link">Contact</a>
@@ -86,8 +86,11 @@
                                 {% if request.user.is_superuser %}
                                     <a href="{% url "display-user" 'user' %}" class="dropdown-item">Customers</a>
                                     <a href="{% url "display-user" 'staff' %}" class="dropdown-item">Staffs</a>
+                                    <a href="{% url "create-service" %}" class="dropdown-item">Create Service</a>
+                                    <a href="{% url "all_services" %}" class="dropdown-item">All Services</a>
                                 {% elif request.user.is_staff %}
                                     <a href="{% url "display-user" 'user' %}" class="dropdown-item">Customers</a>
+                                    <a href="{% url "all_services" %}" class="dropdown-item">All Services</a>
                                 {% endif %}
                                 <a href="{% url "password_change" %}" class="dropdown-item">Change Password</a>
                             </div>
@@ -100,7 +103,6 @@
                         <a href="{% url "login" %}" class="nav-item nav-link">Login</a>
                         <a href="{% url "signup" %}" class="nav-item nav-link">Signup</a>
                         {% endif %}
-                        
                     </div>
                 </div>
             </div>

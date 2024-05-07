@@ -53,7 +53,8 @@ class Admin_form(forms.ModelForm):
             'nationality',
             'displayPicture',
             'department',
-            'staff'
+            'staff',
+            'HOD'
         ]
 
 

@@ -35,9 +35,10 @@ class UserProfile(models.Model):
     displayPicture = models.ImageField(upload_to='profile_picture/', unique=False, null=True)
     department = models.CharField(choices=departments, max_length=255)
     staff = models.BooleanField(default=False)
+    HOD =  models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
     @receiver(post_save, sender=User)

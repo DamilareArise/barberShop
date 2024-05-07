@@ -1,0 +1,112 @@
+{% extends "common.html" %}
+    {% block title %}Service Details{% endblock title %}
+    {% load static %}
+    {% block content %}
+
+        <!-- Page Header Start -->
+        <div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Service Details</h2>
+                    </div>
+                    <div class="col-12">
+                        <a href="{% url "home" %}">Home</a>
+                        <a href="">Service Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Header End -->
+
+
+        <!-- About Start -->
+        <div class="about">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="about-img">
+                            <img src="{% static "img/about.jpg" %}" alt="Image">
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-6">
+                        <div class="section-header text-left">
+                            <h2>{{service.name}}</h2>
+                        </div>
+                        <div class="about-text">
+                            <p>
+                               {{service.description}}
+                            </p>
+                            <p>{{service.date_created}}</p>
+                            {% if request.user.is_staff %}
+                            <p class='text-uppercase'>HOD: {{service.HOD}}</p>
+                            {% if request.user.is_superuser %}
+                            <a class="btn" href="{% url "edit_service" service.service_id %}">EDIT</a>
+                            <a class="btn text-uppercase" href="{% url "create_sub_service" service.service_id %}">Create Sub Service</a>
+                        
+                            <!-- Button trigger modal -->
+                            <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal_{{service.service_id}}">
+                                DELETE
+                            </a>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal_{{service.service_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">DELETE SERVICE</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    About to delete {{service.name}}
+                                    </div>
+                                    <div class="modal-footer">
+                                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                                    <a href="{% url "delete_service" service.service_id %}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+
+        <!-- Pricing Start -->
+        <div class="price">
+            <div class="container">
+                {% if sub_services %}
+                <div class="section-header text-center">
+                    <p>Choose Your Cutz</p>
+                    <h2>We Provide Best Price in the City</h2>
+                </div>
+                <div class="row">
+                    {% for sub_service in sub_services %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="price-item">
+                            <div class="price-img">
+                                <img src="{% static "img/price-1.jpg" %}" alt="Image">
+                            </div>
+                            <div class="price-text">
+                                <h2>{{sub_service.name}}</h2>
+                                <h3>${{sub_service.price}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="section-header text-center">
+                    <p>Choose Your Cutz</p>
+                    <h2>Unavailable</h2>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Pricing End -->
+    {% endblock content %}

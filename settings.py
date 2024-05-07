@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "bootstrapform",
-    "barberShop.userApp"
+    "barberShop.userApp",
+    "barberShop.serviceApp"
 ]
 
 MIDDLEWARE = [
