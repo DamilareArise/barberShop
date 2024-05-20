@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,7 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "bootstrapform",
     "barberShop.userApp",
-    "barberShop.serviceApp"
+    "barberShop.serviceApp",
+    "barberShop.bookingApp"
+    
 ]
 
 MIDDLEWARE = [
@@ -117,7 +120,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+JAZZMIN_SETTINGS = {
+    'site_title': 'Barbershop Admin',  # Change the title of the admin interface
+    'site_header': 'Barbershop Admin',  # Change the header text displayed on each admin page
+    'welcome_sign': 'Welcome to Barbershop',  # Change the welcome text displayed on the login page
+    
+}
+JAZZMIN_SETTINGS["show_ui_builder"] = True
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

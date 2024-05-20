@@ -9,7 +9,8 @@ from django.contrib import messages
 def index(request):
     services = Service.objects.all()
     first3_service = services[:3]
-    return render(request, 'index.html', context={'services':first3_service})
+    sub_services = SubService.objects.all() 
+    return render(request, 'index.html', context={'services':first3_service, "sub_services":sub_services})
 
 
 @login_required
@@ -78,4 +79,39 @@ def create_subService(request, serv_id):
     else:
         sub_service_form = SubServiceForm()
         return render(request, 'serviceApp/create_SubService.html', {'subServiceForm': sub_service_form})
+
+@login_required
+def subService_detail(request, sub_servId):
+    sub_service = get_object_or_404(SubService, id = sub_servId)
+    return render(request, 'serviceApp/subservice_detail.html', {'sub_service':sub_service})
+
+
+@login_required
+def edit_subService(request, sub_servId):
+    sub_service = get_object_or_404(SubService, id = sub_servId)
+    if request.method == 'POST':
+        subService_form = SubServiceForm(request.POST or None, request.FILES or None, instance=sub_service)
+
+        if subService_form.is_valid():
+            subService_form.save()
+            
+            messages.success(request, 'Service was successfully updated!')
+            return subService_detail(request, sub_servId)
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return redirect('edit_subService', sub_servId)
+    else:
+        subService_form = SubServiceForm(instance=sub_service)
+        return render(request, 'serviceApp/edit_service.html', {'service_form': subService_form})
     
+
+
+@login_required
+def delete_subService(request, sub_servId, serv_id):
+    try:
+        SubService.objects.get(id = sub_servId).delete()
+        messages.success(request, 'Service deleted successfully')
+    except:
+        messages.error(request, 'Something went wrong')
+        return redirect('service_detail', serv_id)
+    return redirect('service_detail', serv_id)

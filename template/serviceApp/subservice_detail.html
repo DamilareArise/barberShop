@@ -1,0 +1,80 @@
+{% extends "common.html" %}
+    {% block title %}Sub Service Details{% endblock title %}
+    {% load static %}
+    {% block content %}
+
+        <!-- Page Header Start -->
+        <div class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Sub Service Details</h2>
+                    </div>
+                    <div class="col-12">
+                        <a href="{% url "home" %}">Home</a>
+                        <a href="">Sub Service Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page Header End -->
+
+
+        <!-- Sub service Start -->
+        <div class="about">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="about-img">
+                            <img src="{% static "img/about.jpg" %}" alt="Image">
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-6">
+                        <div class="section-header text-left">
+                            <h2>{{sub_service.name}}</h2>
+                        </div>
+                        <div class="about-text">
+                            <p>
+                               ${{sub_service.price}}
+                            </p>
+                            
+                            {% if request.user.is_staff %}
+                            <p>{{sub_service.date_created}}</p>
+                            <p class='text-uppercase'>HOD: {{sub_service.service.HOD}}</p>
+                            {% if request.user.is_superuser %}
+                            <a class="btn" href="{% url "edit_subService" sub_service.id %}">EDIT</a>
+                            
+                            <!-- Button trigger modal -->
+                            <a type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal_{{sub_service.id}}">
+                                DELETE
+                            </a>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal_{{sub_service.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">DELETE SERVICE</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    About to delete {{sub_service.name}}
+                                    </div>
+                                    <div class="modal-footer">
+                                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                                    <a href="{% url "delete_subService" sub_service.id sub_service.service.service_id %}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                            <a class="btn text-uppercase" href="{% url "create_booking" sub_service.id %}">Book</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sub service End -->
+
+    {% endblock content %}

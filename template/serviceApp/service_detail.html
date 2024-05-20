@@ -20,7 +20,7 @@
         <!-- Page Header End -->
 
 
-        <!-- About Start -->
+        <!-- Service Start -->
         <div class="about">
             <div class="container">
                 <div class="row align-items-center">
@@ -74,10 +74,10 @@
                 </div>
             </div>
         </div>
-        <!-- About End -->
+        <!-- Service End -->
 
 
-        <!-- Pricing Start -->
+        <!-- sub service Start -->
         <div class="price">
             <div class="container">
                 {% if sub_services %}
@@ -87,17 +87,19 @@
                 </div>
                 <div class="row">
                     {% for sub_service in sub_services %}
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="price-item">
-                            <div class="price-img">
-                                <img src="{% static "img/price-1.jpg" %}" alt="Image">
-                            </div>
-                            <div class="price-text">
-                                <h2>{{sub_service.name}}</h2>
-                                <h3>${{sub_service.price}}</h3>
+                    <a href="{% url "subService_detail" sub_service.id %}">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="price-item">
+                                <div class="price-img">
+                                    <img src="{% static "img/price-1.jpg" %}" alt="Image">
+                                </div>
+                                <div class="price-text">
+                                    <h2>{{sub_service.name}}</h2>
+                                    <h3>${{sub_service.price}}</h3>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     {% endfor %}
                 </div>
                 {% else %}
@@ -108,5 +110,5 @@
                 {% endif %}
             </div>
         </div>
-        <!-- Pricing End -->
+        <!-- sub service End -->
     {% endblock content %}
