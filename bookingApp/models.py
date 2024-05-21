@@ -24,6 +24,7 @@ class Booking(models.Model):
         choices= status,
         default='Pending'
     )
+    payment_status = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
 

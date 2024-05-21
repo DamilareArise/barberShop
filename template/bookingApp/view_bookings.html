@@ -1,0 +1,160 @@
+{% extends "common.html" %}
+    {% block title %}Accounts{% endblock title %}
+    {% block content %}
+        {% load static %}
+
+
+    <section class="section main-section" style="margin-top: 10vh;">
+        <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-6" style="padding-top: 5vh;">
+            <div class='card'>
+                <div class="card-content">
+                    <div class="flex items-center justify-between">
+                        <div class="widget-label">
+                            <table class="table table-striped table-hover mx-auto px-auto">
+                                <thead style="background-color:#969cad">
+                                    <th>Booking ID</th>
+                                    <th>Profile</th>
+                                    <th>booking</th>
+                                    <th>Booking Date</th>
+                                    <th>Booking Time</th>
+                                    <th>Approved Date</th>
+                                    <th>Approved Time</th>
+                                    <th>Status</th>
+                                    <th>Info</th>
+                                    <th>Payment Status</th>
+                                    {% if request.user.is_staff %}
+                                    <th>Admin Response</th>
+                                    {% endif %}
+                                    <th>Delete</th>
+                                </thead>
+                                {% if bookings %}
+                                    {% for booking in bookings %}
+                                    <tr>
+                                        <td>
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                #-00{{booking.booking_id}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="{% url "my_account" booking.user.id %}" class='text-decoration-none'>
+                                                <span style="color: #0e399c;" class= "fw-bold">
+                                                    ID-0{{booking.user.id}}
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                {{booking.service.name}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                {{booking.booking_date}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                {{booking.booking_time}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                {{booking.approved_date}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                {{booking.approved_time}}
+                                            </span>
+                                        </td>                                      
+                                        <td>
+                                            {% if booking.status == 'Pending' %}
+                                            <span class= "fw-bold text-warning">
+                                                {{booking.status}}
+                                            </span>
+                                            {% elif booking.status == 'Confirmed' %}
+                                            <span class= "fw-bold text-primary">
+                                                {{booking.status}}
+                                            </span>
+                                            {% elif booking.status == 'Completed' %}
+                                            <span class= "fw-bold text-success">
+                                                {{booking.status}}
+                                            </span>
+                                            {% elif booking.status == 'Cancelled' %}
+                                            <span class= "fw-bold text-danger">
+                                                {{booking.status}}
+                                            </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if booking.notes %}
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                {{booking.notes}}
+                                            </span>
+                                            {% else %}
+                                            <span style="color: #969cad;" class= "fw-bold">
+                                                Awaiting Response
+                                            </span>
+                                            {% endif %}
+                                        </td>
+                                        {% if booking.payment_status %}
+                                        <td>
+                                            <span  class= "fw-bold btn btn-primary text-white">
+                                                Paid
+                                            </span>
+                                        </td>
+                                        {% else %}
+                                        <td>
+                                            <a href="" class='text-decoration-none animate__animated animate__flash animate__infinite infinite'>
+                                                <span  class= "fw-bold btn btn-warning text-white">
+                                                    Make Payment
+                                                </span>
+                                            </a>
+                                        </td>
+                                        {% endif %}
+                                        {% if request.user.is_staff %}
+                                        <td>
+                                            <a href="{% url "admin_response" booking.booking_id %}" class='text-decoration-none'>
+                                                <span  class= "fw-bold btn btn-primary text-white">
+                                                    Respond
+                                                </span>
+                                            </a>
+                                        </td>
+                                        {% endif %}
+                                        <td>
+                                            <a type="button" class='text-decoration-none' data-bs-toggle="modal" data-bs-target="#exampleModal_{{booking.booking_id}}" >
+                                                <span class= "fw-bold btn btn-danger text-white">
+                                                    Delete
+                                                </span>
+                                            </a>
+                                        </td>
+                                      
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal_{{booking.booking_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">DELETE booking</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                About to delete {{booking.service.name}}
+                                                </div>
+                                                <div class="modal-footer">
+                                                <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                                                <a href="{% url "delete_booking" booking.booking_id %}" class="btn btn-danger">Delete</a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
