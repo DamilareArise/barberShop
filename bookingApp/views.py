@@ -6,6 +6,7 @@ from django.contrib import messages
 from barberShop.serviceApp.models import SubService
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.db import transaction
 # Create your views here.
 
 @login_required
@@ -16,7 +17,7 @@ def view_bookings(request,userid):
         bookings = Booking.objects.filter(user_id = userid)
     return render(request, 'bookingApp/view_bookings.html',{'bookings':bookings})
 
-
+@transaction.atomic()
 @login_required
 def create_booking(request,subServ_id):
     sub_service = get_object_or_404(SubService, id = subServ_id)
@@ -50,7 +51,7 @@ def create_booking(request,subServ_id):
         booking_form = BookingForm()
         return render(request, 'bookingApp/create_booking.html', {'booking_form': booking_form})
     
-
+@transaction.atomic()
 @login_required
 def adminResponse(request, book_id):
     booking = get_object_or_404(Booking, booking_id = book_id)

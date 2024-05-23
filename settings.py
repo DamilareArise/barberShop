@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "bootstrapform",
     "barberShop.userApp",
     "barberShop.serviceApp",
-    "barberShop.bookingApp"
+    "barberShop.bookingApp",
+    "barberShop.paymentApp"
     
 ]
 
