@@ -1,13 +1,13 @@
 {% extends "common.html" %}
-    {% block title %}Accounts{% endblock title %}
+    {% block title %}All Bookings{% endblock title %}
     {% block content %}
         {% load static %}
 
 
-    <section class="section main-section" style="margin-top: 10vh;">
-        <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-6" style="padding-top: 5vh;">
-            <div class='card'>
-                <div class="card-content">
+    <section class="" style="margin-top: 10vh;">
+        <div class="" style="padding-top: 5vh;">
+            <div class=''>
+                <div class="">
                     <div class="flex items-center justify-between">
                         <div class="widget-label">
                             <table class="table table-striped table-hover mx-auto px-auto">
@@ -105,12 +105,31 @@
                                         </td>
                                         {% else %}
                                         <td>
-                                            <a href="" class='text-decoration-none animate__animated animate__flash animate__infinite infinite'>
+                                            <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalPayment_{{booking.booking_id}}" class='text-decoration-none animate__animated animate__flash animate__infinite infinite'>
                                                 <span  class= "fw-bold btn btn-warning text-white">
                                                     Make Payment
                                                 </span>
                                             </a>
                                         </td>
+                                        <!-- Modal for Payment -->
+                                        <div class="modal fade" id="exampleModalPayment_{{booking.booking_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Make Payment</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                Proceed to make payment for {{booking.service.name}}
+                                                </div>
+                                                <input type="text" class="" id="booking_price_{{booking.booking_id}}" value="{{booking.service.price}}">
+                                                <div class="modal-footer">
+                                                <a type="button" class="btn btn-white" data-bs-dismiss="modal">Cancel</a>
+                                                <button onclick="makePayment({{booking.booking_id}})" class="btn btn-primary">Pay Now</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                         {% endif %}
                                         {% if request.user.is_staff %}
                                         <td>
@@ -129,19 +148,19 @@
                                             </a>
                                         </td>
                                       
-                                        <!-- Modal -->
+                                        <!-- Modal for Delete -->
                                         <div class="modal fade" id="exampleModal_{{booking.booking_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">DELETE booking</h1>
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Booking</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                 About to delete {{booking.service.name}}
                                                 </div>
                                                 <div class="modal-footer">
-                                                <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                                                <a type="button" class="btn btn-white" data-bs-dismiss="modal">Close</a>
                                                 <a href="{% url "delete_booking" booking.booking_id %}" class="btn btn-danger">Delete</a>
                                                 </div>
                                             </div>
@@ -157,4 +176,40 @@
             </div>
         </div>
     </section>
+    <script>
+        function makePayment(bookingId) {
+            var bookingPriceElement = document.getElementById('booking_price_' + bookingId);
+            var bookingPrice = bookingPriceElement ? bookingPriceElement.value : 'undefined';
+
+            alert(typeof(bookingPrice));
+                
+            FlutterwaveCheckout({
+            public_key: "FLWPUBK_TEST-02b9b5fc6406bd4a41c3ff141cc45e93-X",
+            tx_ref: "txref-DI0NzMx13",
+            amount: Number(bookingPrice),
+            currency: "NGN",
+            payment_options: "card, banktransfer, ussd",
+            meta: {
+                source: "docs-inline-test",
+                consumer_mac: "92a3-912ba-1192a",
+            },
+            customer: {
+                email: "test@mailinator.com",
+                phone_number: "08100000000",
+                name: "Ayomide Jimi-Oni",
+            },
+            customizations: {
+                title: "Flutterwave Developers",
+                description: "Test Payment",
+                logo: "https://checkout.flutterwave.com/assets/img/rave-logo.png",
+            },
+            callback: function (data){
+                console.log("payment callback:", data);
+            },
+            onclose: function() {
+                console.log("Payment cancelled!");
+            }
+            });
+        }
+    </script>
     {% endblock %}

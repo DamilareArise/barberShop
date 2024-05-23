@@ -37,7 +37,8 @@ urlpatterns = [
     re_path(r'^accounts/signup/$', SignUpView.as_view(), name="signup"),
     re_path(r'^userApp/', include('barberShop.userApp.urls')),
     re_path(r'^serviceApp/', include('barberShop.serviceApp.urls')),
-    re_path(r'^bookingApp/', include('barberShop.bookingApp.urls'))
+    re_path(r'^bookingApp/', include('barberShop.bookingApp.urls')),
+    # re_path(r'^paymentApp/', include('barberShop.paymentApp.urls'))
 
 ]
 
